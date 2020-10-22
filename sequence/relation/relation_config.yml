@@ -1,0 +1,91 @@
+# shared for multiple projects in this machine, raw data, read only
+
+home:
+#  dir: '/home/zutnlp/zutnlp_student_2017/zhangzhiyi'
+  dir: 'D:/Python/'
+device: ~
+
+data:
+  separator: ' '
+  base_dir: '{home.dir}/datasets/'
+  name: 'multiNYT'
+  train_path: '{data.base_dir}/{data.name}/train.json'
+  valid_path: '{data.base_dir}/{data.name}/dev.json'
+  test_path: '{data.base_dir}/{data.name}/test.json'
+  vocab_path: '{data.base_dir}/{data.name}/word_single.npy'
+  relation2id_path: '{data.base_dir}/{data.name}/relation2id.json'
+  label2id_path: '{data.base_dir}/{data.name}/label2id.json'
+  pos2id_path: '{data.base_dir}/{data.name}/pos2id.json'
+  char2id_path: '{data.base_dir}/{data.name}/char2id.json'
+
+  pos_vocab_size: 48
+  max_word_len: 10
+  char_vocab_size: 66
+  max_len: 120
+  vocab_size: 83997
+  rel_num: 21
+  label_num: 10
+  neg_num: 4
+
+project:
+  name: 'zutnlp_relation'
+  dir:
+    work: "{home.dir}/workspace/{project.name}"
+
+# specified for specific module
+model:
+  name: 'zutnlp_relation'
+  model_name: 'Rel_based_labeling'
+  pos_embedding_size: 30
+  char_embedding_size: 30
+  word_embedding_size: 300
+  rel_dim: 300
+  attention_type: 'dot'  # 'dot or net'
+  op_type: 'add' # 'add or mul'
+  optimizer: 'adam'
+
+  module_rnn:
+    rnn_hidden_size: 300
+    att_hidden_size : 64
+    num_filter : 3
+    num_layer : 3
+    size_window : 5
+    rate_dropout: 1.0e-1
+    length: 10
+
+
+loss:
+  alpha: 1.0e-1
+  beta: 1.0e-3
+  align: 'MSE'
+  reconstruct: 'L2'
+  save_loss_every: 140
+  triplet:
+    margin: 100
+
+evaluation:
+  kind: seq
+  type: micro # macro
+  is_display: True
+
+learn:
+  seed: 42
+  dropout_rate: 0.1
+  learning_rate: 1.0e-4
+  learning_rate_decay: 0.5
+  learning_rate_decay_start: 0
+  learning_rate_decay_every: 100
+  weight_decay: 1.0e-5
+  neg_rate: 0.2
+  batch_size: 16
+  eval_batch_size: 16
+  max_epoch: 100
+  dir:
+    work: "{project.dir.work}/{model.name}"
+    log: '{learn.dir.work}/log'
+    data: "{learn.dir.work}/data"
+    saved: '{learn.dir.work}/saved'
+    result: '{learn.dir.work}/result'
+    summary: '{learn.dir.work}/summary'
+
+

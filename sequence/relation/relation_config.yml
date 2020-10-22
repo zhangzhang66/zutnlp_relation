@@ -1,7 +1,7 @@
 # shared for multiple projects in this machine, raw data, read only
 
 home:
-#  dir: '/home/zutnlp/zutnlp_student_2017/zhangzhiyi'
+  #  dir: '/home/zutnlp/zutnlp_student_2017/zhangzhiyi'
   dir: 'D:/Python/'
 device: ~
 
@@ -46,10 +46,10 @@ model:
 
   module_rnn:
     rnn_hidden_size: 300
-    att_hidden_size : 64
-    num_filter : 3
-    num_layer : 3
-    size_window : 5
+    att_hidden_size: 64
+    num_filter: 3
+    num_layer: 3
+    size_window: 5
     rate_dropout: 1.0e-1
     length: 10
 

@@ -15,6 +15,7 @@ from common.util.utils import timeit
 def tokenizer(token):
     return [k for k in token]
 
+
 class RelationDataLoader(CommonDataLoader):
 
     def __init__(self, data_config):
@@ -24,5 +25,4 @@ class RelationDataLoader(CommonDataLoader):
         pass
 
     def __build_field(self):
-
         pass

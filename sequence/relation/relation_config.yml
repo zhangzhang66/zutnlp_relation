@@ -9,14 +9,14 @@ data:
   separator: ' '
   base_dir: '{home.dir}/datasets/'
   name: 'multiNYT'
-  train_path: '{data.base_dir}/{data.name}/train.json'
-  valid_path: '{data.base_dir}/{data.name}/dev.json'
-  test_path: '{data.base_dir}/{data.name}/test.json'
-  vocab_path: '{data.base_dir}/{data.name}/word_single.npy'
-  relation2id_path: '{data.base_dir}/{data.name}/relation2id.json'
-  label2id_path: '{data.base_dir}/{data.name}/label2id.json'
-  pos2id_path: '{data.base_dir}/{data.name}/pos2id.json'
-  char2id_path: '{data.base_dir}/{data.name}/char2id.json'
+  train_path: '{data.base_dir}/{data.name}/train_single.json'
+  valid_path: '{data.base_dir}/{data.name}/dev_single.json'
+  test_path: '{data.base_dir}/{data.name}/test_single.json'
+  relation2id_path: '{data.base_dir}/{data.name}/relation2id_single.json'
+  label2id_path: '{data.base_dir}/{data.name}/label2id_single.json'
+  pos2id_path: '{data.base_dir}/{data.name}/pos2id_single.json'
+  char2id_path: '{data.base_dir}/{data.name}/char2id_single.json'
+  word_file_path: '{data.base_dir}/{data.name}/word_single.npy'
 
   pos_vocab_size: 48
   max_word_len: 10

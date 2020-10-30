@@ -120,7 +120,6 @@ def build_char(path):
              ']','i','`','t',':','m','<','p','0','3','$','!','{','l','*','n','j','h',
              'y','u',',','z','+','-','4','\'','_','q','b','5','@',';']
     char2id = { j : i for i,j in enumerate(chars) }
-    print(len(char2id))
     with open(path, 'w') as f:
         json.dump(char2id, f, indent=1)
     f.close()

@@ -49,7 +49,7 @@ class REDataset(object):
         self.dev_data = read_json(self._config.data.valid_path)
 
     def prepare(self):
-        print('loading data ...')
+
         train_pos_f, train_pos_l, train_neg_f, train_neg_l = self.process_train(self.train_data)
         with open(os.path.join('' + self._config.data.root, 'train_pos_features.pkl'), 'wb') as f:
             pickle_dump(train_pos_f, f)
@@ -59,7 +59,6 @@ class REDataset(object):
             pickle_dump(train_neg_f, f)
         with open(os.path.join('' + self._config.data.root, 'train_neg_len.pkl'), 'wb') as f:
             pickle_dump(train_neg_l, f)
-        print('finish')
 
         dev_f, dev_l = self.process_dev_test(self.dev_data)
         np.save(os.path.join('' + self._config.data.root, 'dev_features.npy'), dev_f, allow_pickle=True)
@@ -264,12 +263,17 @@ class Data(Dataset):
 
     def __len__(self):
         return len(self.features)
-
     def __getitem__(self, idx):
         sen_len = self.sen_len[idx]
         feature = self.features[idx]
         return feature[0], feature[1], feature[2], feature[3], sen_len
-
+    def get_features(self):
+        features=[]
+        for idx in range(self.features.shape[0]):
+            sen_len = self.sen_len[idx]
+            feature = self.features[idx]
+            features.append([feature[0], feature[1], feature[2], feature[3], sen_len])
+        return features
 
 class Train_data(Dataset):
 
@@ -414,20 +418,23 @@ class Loader():
         sen_lens = torch.cat(sen_lens, 0)
         return sents, rels, labels, poses, all_chars, sen_lens, wrapped
 
-    def get_batch_dev_test(self, batch_size, prefix):
+    def get_batch_dev_test(self, batch_size):
         wrapped = False
         sents = []
         gts = []
         poses = []
         chars = []
         sen_lens = []
+
         for i in range(batch_size):
             try:
-                sent, triple, pos, char, sen_len = self.loader[prefix].next()
+                sent, triple, pos, char, sen_len =self.loader['dev'].next()
             except:
-                self.reset(prefix)
-                sent, triple, pos, char, sen_len = self.loader[prefix].next()
-                wrapped = True
+                pass
+                # sent, triple, pos, char, sen_len = self.loader['dev'].next()
+                # wrapped = True
+            sent = sent.type(torch.FloatTensor)
+            sen_len = sen_len.type(torch.FloatTensor)
             sents.append(sent[0])
             gts.append(triple[0])
             poses.append(pos[0])
@@ -437,4 +444,4 @@ class Loader():
         poses = torch.stack(poses)
         chars = torch.stack(chars)
         sen_lens = torch.stack(sen_lens)
-        return sents, gts, poses, chars, sen_lens, wrapped
+        return sents, gts, poses, chars, sen_lens,wrapped

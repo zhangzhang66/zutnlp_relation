@@ -2,17 +2,19 @@
 
 home:
   #  dir: '/home/zutnlp/zutnlp_student_2017/zhangzhiyi'
-  dir: 'D:/Python/'
+  dir: 'D:/Python'
 device: ~
 
 data:
+
   separator: ' '
   base_dir: '{home.dir}/datasets/'
   name: 'multiNYT'
+  root: '{data.base_dir}/{data.name}'
   train_path: '{data.base_dir}/{data.name}/train_single.json'
   valid_path: '{data.base_dir}/{data.name}/dev_single.json'
   test_path: '{data.base_dir}/{data.name}/test_single.json'
-  relation2id_path: '{data.base_dir}/{data.name}/relation2id_single.json'
+  rel2id_path: '{data.base_dir}/{data.name}/relation2id_single.json'
   label2id_path: '{data.base_dir}/{data.name}/label2id_single.json'
   pos2id_path: '{data.base_dir}/{data.name}/pos2id_single.json'
   char2id_path: '{data.base_dir}/{data.name}/char2id_single.json'
@@ -30,7 +32,7 @@ data:
 project:
   name: 'zutnlp_relation'
   dir:
-    work: "{home.dir}/workspace/{project.name}"
+    work: "{home.dir}/workspace/"
 
 # specified for specific module
 model:
@@ -43,15 +45,19 @@ model:
   attention_type: 'dot'  # 'dot or net'
   op_type: 'add' # 'add or mul'
   optimizer: 'adam'
+  use_pos: True
+  use_char: True
+  filter_number: 50
+  kernel_size: 3
 
-  module_rnn:
-    rnn_hidden_size: 300
-    att_hidden_size: 64
-    num_filter: 3
-    num_layer: 3
-    size_window: 5
-    rate_dropout: 1.0e-1
-    length: 10
+module_rnn:
+  rnn_hidden_size: 300
+  att_hidden_size: 64
+  num_filter: 3
+  num_layer: 3
+  size_window: 5
+  rate_dropout: 1.0e-1
+  length: 10
 
 
 loss:
@@ -77,8 +83,10 @@ learn:
   learning_rate_decay_every: 100
   weight_decay: 1.0e-5
   neg_rate: 0.2
-  batch_size: 16
+  train_batch_size: 16
   eval_batch_size: 16
+  episode: 100
+  batch_display: 50
   max_epoch: 100
   dir:
     work: "{project.dir.work}/{model.name}"
